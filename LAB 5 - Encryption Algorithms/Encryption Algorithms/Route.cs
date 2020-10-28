@@ -6,12 +6,12 @@ namespace LAB_5___Encryption_Algorithms
 {
     class Route : Interfaces.IEncryptionAlgorithm
     {
-        public byte[] DecryptData(byte[] content)
+        public byte[] DecryptData(byte[] content, byte[] key)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] EncryptData(byte[] content)
+        public byte[] EncryptData(byte[] content, byte[] key)
         {
             throw new NotImplementedException();
         }
