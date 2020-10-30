@@ -27,11 +27,20 @@ namespace LAB_5___API.Controllers
         }
 
         [HttpPost("cipher/{method}")]
-        public ActionResult CompressFile([FromForm] IFormFile file, string method, [FromForm] string key)
+        public ActionResult EncryptFile([FromForm] IFormFile file, string method, [FromForm] string key)
         {
             try
             {
-                return Ok();
+                string file_path = environment.ContentRootPath;
+                string file_name = file.FileName;
+
+                FileManage file_manager = new FileManage();
+                file_manager.SaveFile(file, file_path, file_name);
+                file_manager.EncryptFile(file_path, file_name, method, key);
+                file_manager.DeleteFile(file_path, file_name);
+
+                FileStream result = new FileStream(file_manager.EncryptedFilePath, FileMode.Open);
+                return File(result, "text/plain", file_manager.EncryptedFileName);
             }
             catch (Exception)
             {
@@ -41,11 +50,20 @@ namespace LAB_5___API.Controllers
         }
 
         [HttpPost("decipher")]
-        public ActionResult DecompressFile([FromForm] IFormFile file)
+        public ActionResult DecryptFile([FromForm] IFormFile file, [FromForm] string key)
         {
             try
             {
-                return Ok();
+                string file_path = environment.ContentRootPath;
+                string file_name = file.FileName;
+
+                FileManage file_manager = new FileManage();
+                file_manager.SaveFile(file, file_path, file_name);
+                file_manager.DecryptFile(file_path, file_name, key);
+                file_manager.DeleteFile(file_path, file_name);
+
+                FileStream result = new FileStream(file_manager.DecryptedFilePath, FileMode.Open);
+                return File(result, "text/plain", file_manager.DecryptedFileName);
             }
             catch (Exception)
             {
