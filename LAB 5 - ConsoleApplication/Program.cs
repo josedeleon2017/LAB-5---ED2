@@ -8,13 +8,15 @@ namespace LAB_5___ConsoleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("\t\t\t\t\t\t\t- LAB 5 -\n\nKevin Romero 1047519\nJosé De León 1072619");
-            string texto = "COMO ESTAS AMIGO";
+            string texto = "Mejor que buscar la verdad sin método es no pensar nunca en ella, porque los estudios desordenados y las meditaciones oscuras turban las luces naturales de la razón y ciegan la inteligencia. -René Descártes";
 
+
+            Console.WriteLine("\nTEXTO ORIGINAL\n" + texto);
 
             Cesar cesar = new Cesar();
-            Console.WriteLine("\n\nCESAR\nTEXTO ORIGINAL\n" + texto);
             string llave_cesar = "MARYJ";
-            Console.WriteLine("\nTEXTO CIFRADO");
+
+            Console.WriteLine("\n-------- CESAR -------------------------------------------------------------------------------------------------\nTEXTO CIFRADO");
             byte[] result_encrypt = cesar.EncryptData(ConvertToByte(texto), ConvertToByte(llave_cesar));
             Console.WriteLine(ConvertToChar(result_encrypt));
 
@@ -24,15 +26,16 @@ namespace LAB_5___ConsoleApplication
 
 
             ZigZag zig_zag = new ZigZag();
-            Console.WriteLine("\n\nZIG ZAG\nTEXTO ORIGINAL\n" + texto);
-            byte[] llave_zig_zag = new byte[] { 5 };
-            Console.WriteLine("\nTEXTO CIFRADO");
+            byte[] llave_zig_zag = new byte[] { 4 };
+
+
+            Console.WriteLine("\n-------- ZIG ZAG -----------------------------------------------------------------------------------------------\nTEXTO CIFRADO");
             byte[] result_encrypt2 = zig_zag.EncryptData(ConvertToByte(texto), llave_zig_zag);
             Console.WriteLine(ConvertToChar(result_encrypt2));
 
-            //Console.WriteLine("\nTEXTO DESCIFRADO");
-            //byte[] result_decrypt2 = zig_zag.DecryptData(result_encrypt2, ConvertToByte(llave_zig_zag));
-            //Console.WriteLine(ConvertToChar(result_decrypt2));
+            Console.WriteLine("\nTEXTO DESCIFRADO");
+            byte[] result_decrypt2 = zig_zag.DecryptData(result_encrypt2, llave_zig_zag);
+            Console.WriteLine(ConvertToChar(result_decrypt2));
 
             Console.ReadKey();
         }

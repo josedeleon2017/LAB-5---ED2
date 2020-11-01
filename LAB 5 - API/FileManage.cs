@@ -59,7 +59,8 @@ namespace LAB_5___API
                     extension = ".csr";
                     break;
                 case "zigzag":
-                    content = new ZigZag().EncryptData(buffer, ConvertToByte(key));
+                    byte[] key_converted = new byte[] { Convert.ToByte(key) };
+                    content = new ZigZag().EncryptData(buffer, key_converted);
                     extension = ".zz";
                     break;
                 case "ruta":
@@ -100,7 +101,8 @@ namespace LAB_5___API
                     result = new Cesar().DecryptData(buffer, ConvertToByte(key));
                     break;
                 case "zz":
-                    result = new ZigZag().DecryptData(buffer, ConvertToByte(key));
+                    byte[] key_converted = new byte[] { Convert.ToByte(key) };
+                    result = new ZigZag().DecryptData(buffer, key_converted);
                     break;
                 case "rt":
                     result = new Route().DecryptData(buffer, ConvertToByte(key));

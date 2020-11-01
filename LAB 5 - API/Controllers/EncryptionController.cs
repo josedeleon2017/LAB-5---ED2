@@ -71,11 +71,5 @@ namespace LAB_5___API.Controllers
             }
         }
 
-        [HttpGet("encrypted")]
-        public IEnumerable<FileManage> GetEncrypted()
-        {
-            List<FileManage> list = new List<FileManage>();
-            return list;
-        }
     }
 }
