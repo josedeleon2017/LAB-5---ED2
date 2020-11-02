@@ -37,6 +37,18 @@ namespace LAB_5___ConsoleApplication
             byte[] result_decrypt2 = zig_zag.DecryptData(result_encrypt2, llave_zig_zag);
             Console.WriteLine(ConvertToChar(result_decrypt2));
 
+            Route ruta = new Route();
+            byte[] llave_ruta = new byte[] { 4, 3 };
+
+
+            Console.WriteLine("\n-------- Ruta -----------------------------------------------------------------------------------------------\nTEXTO CIFRADO");
+            byte[] result_encrypt3 = ruta.EncryptData(ConvertToByte(texto), llave_ruta);
+            Console.WriteLine(ConvertToChar(result_encrypt3));
+
+            Console.WriteLine("\nTEXTO DESCIFRADO");
+            byte[] result_decrypt3 = ruta.DecryptData(result_encrypt3, llave_ruta);
+            Console.WriteLine(ConvertToChar(result_decrypt3));
+
             Console.ReadKey();
         }
 
