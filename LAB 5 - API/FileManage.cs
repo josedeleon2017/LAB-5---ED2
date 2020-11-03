@@ -36,7 +36,7 @@ namespace LAB_5___API
             File.Delete(file_path);
         }
 
-        public void EncryptFile(string path, string file_name, string algorithm, string key)
+        public void EncryptFile(string path, string file_name, string algorithm, Key key)
         {
             string[] name = file_name.Split(".");
             string saved_file = path + $"\\Data\\temporal\\{name[0]}.txt";
@@ -55,16 +55,18 @@ namespace LAB_5___API
             switch (algorithm.Trim())
             {
                 case "cesar":
-                    content = new Cesar().EncryptData(buffer, ConvertToByte(key));
+                    content = new Cesar().EncryptData(buffer, ConvertToByte(key.Word));
                     extension = ".csr";
                     break;
                 case "zigzag":
-                    byte[] key_converted = new byte[] { Convert.ToByte(key) };
+                    byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
                     content = new ZigZag().EncryptData(buffer, key_converted);
                     extension = ".zz";
                     break;
                 case "ruta":
-                    content = new Route().EncryptData(buffer, ConvertToByte(key));
+
+                    byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns)};
+                    content = new Route().EncryptData(buffer, keyRoute);
                     extension = ".rt";
                     break;
                 default: throw new Exception();
@@ -79,7 +81,7 @@ namespace LAB_5___API
             EncryptedFileName = $"{name[0]}{extension}";
         }
 
-        public void DecryptFile(string path, string file_name, string key)
+        public void DecryptFile(string path, string file_name, Key key)
         {
 
             byte[] buffer;
@@ -98,14 +100,15 @@ namespace LAB_5___API
             switch (extension)
             {
                 case "csr":
-                    result = new Cesar().DecryptData(buffer, ConvertToByte(key));
+                    result = new Cesar().DecryptData(buffer, ConvertToByte(key.Word));
                     break;
                 case "zz":
-                    byte[] key_converted = new byte[] { Convert.ToByte(key) };
+                    byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
                     result = new ZigZag().DecryptData(buffer, key_converted);
                     break;
                 case "rt":
-                    result = new Route().DecryptData(buffer, ConvertToByte(key));
+                    byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
+                    result = new Route().DecryptData(buffer, keyRoute);
                     break;
                 default: throw new Exception();
             }

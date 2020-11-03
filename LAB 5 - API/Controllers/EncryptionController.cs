@@ -27,16 +27,16 @@ namespace LAB_5___API.Controllers
         }
 
         [HttpPost("cipher/{method}")]
-        public ActionResult EncryptFile([FromForm] IFormFile file, string method, [FromForm] string key)
+        public ActionResult EncryptTest([FromForm] CipherInput input, string method)
         {
             try
             {
                 string file_path = environment.ContentRootPath;
-                string file_name = file.FileName;
+                string file_name = input.File.FileName;
 
                 FileManage file_manager = new FileManage();
-                file_manager.SaveFile(file, file_path, file_name);
-                file_manager.EncryptFile(file_path, file_name, method, key);
+                file_manager.SaveFile(input.File, file_path, file_name);
+                file_manager.EncryptFile(file_path, file_name, method, input.Key);
                 file_manager.DeleteFile(file_path, file_name);
 
                 FileStream result = new FileStream(file_manager.EncryptedFilePath, FileMode.Open);
@@ -46,20 +46,19 @@ namespace LAB_5___API.Controllers
             {
                 return StatusCode(500);
             }
-
         }
 
-        [HttpPost("decipher")]
-        public ActionResult DecryptFile([FromForm] IFormFile file, [FromForm] string key)
+            [HttpPost("decipher")]
+        public ActionResult DecryptFile([FromForm] CipherInput input)
         {
             try
             {
                 string file_path = environment.ContentRootPath;
-                string file_name = file.FileName;
+                string file_name = input.File.FileName;
 
                 FileManage file_manager = new FileManage();
-                file_manager.SaveFile(file, file_path, file_name);
-                file_manager.DecryptFile(file_path, file_name, key);
+                file_manager.SaveFile(input.File, file_path, file_name);
+                file_manager.DecryptFile(file_path, file_name, input.Key);
                 file_manager.DeleteFile(file_path, file_name);
 
                 FileStream result = new FileStream(file_manager.DecryptedFilePath, FileMode.Open);
