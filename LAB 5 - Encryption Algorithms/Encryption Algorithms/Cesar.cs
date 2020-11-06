@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LAB_5___Encryption_Algorithms.Encryption_Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,9 +13,9 @@ namespace LAB_5___Encryption_Algorithms
         List<byte> Alphabet_Disorganized_Uppercase = new List<byte>();
         List<byte> Alphabet_Disorganized_Lowercase = new List<byte>();
 
-        public byte[] DecryptData(byte[] content, byte[] key)
+        public byte[] DecryptData(byte[] content, Key key)
         {
-            SetAlphabets(key);
+            SetAlphabets(ConvertToByte(key.Word));
 
             List<byte> result = new List<byte>(content.Length);
             for (int i = 0; i < content.Length; i++)
@@ -37,9 +38,9 @@ namespace LAB_5___Encryption_Algorithms
             return result.ToArray();
         }
 
-        public byte[] EncryptData(byte[] content, byte[] key)
+        public byte[] EncryptData(byte[] content, Key key)
         {
-            SetAlphabets(key);
+            SetAlphabets(ConvertToByte(key.Word));
 
             List<byte> result = new List<byte>(content.Length);
             for (int i = 0; i < content.Length; i++)
@@ -86,6 +87,15 @@ namespace LAB_5___Encryption_Algorithms
                     Alphabet_Disorganized_Lowercase.Add(Alphabet_Lowercase[i]);
                 }
             }
+        }
+        public static byte[] ConvertToByte(string content)
+        {
+            byte[] array = new byte[content.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = Convert.ToByte(content[i]);
+            }
+            return array;
         }
 
 

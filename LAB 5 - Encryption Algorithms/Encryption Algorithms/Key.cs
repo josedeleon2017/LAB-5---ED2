@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace LAB_5___API
+namespace LAB_5___Encryption_Algorithms.Encryption_Algorithms
 {
     public class Key
     {

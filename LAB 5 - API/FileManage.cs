@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using LAB_5___Encryption_Algorithms;
+using LAB_5___Encryption_Algorithms.Encryption_Algorithms;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace LAB_5___API
@@ -62,7 +63,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        content = new Cesar().EncryptData(buffer, ConvertToByte(key.Word));
+                        content = new Cesar().EncryptData(buffer, key);
                         extension = ".csr";
                         break;
                     }
@@ -73,8 +74,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
-                        content = new ZigZag().EncryptData(buffer, key_converted);
+                        content = new ZigZag().EncryptData(buffer, key);
                         extension = ".zz";
                         break;
                     }
@@ -89,8 +89,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
-                        content = new Route().EncryptData(buffer, keyRoute);
+                        content = new Route().EncryptData(buffer, key);
                         extension = ".rt";
                         break;
                     }
@@ -131,7 +130,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        result = new Cesar().DecryptData(buffer, ConvertToByte(key.Word));
+                        result = new Cesar().DecryptData(buffer, key);
                         break;
                     }
                 case "zz":
@@ -141,8 +140,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
-                        result = new ZigZag().DecryptData(buffer, key_converted);
+                        result = new ZigZag().DecryptData(buffer, key);
                         break;
                     }
                 case "rt":
@@ -156,8 +154,7 @@ namespace LAB_5___API
                     }
                     else
                     {
-                        byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
-                        result = new Route().DecryptData(buffer, keyRoute);
+                        result = new Route().DecryptData(buffer, key);
                         break;
                     }
                 default: throw new Exception();

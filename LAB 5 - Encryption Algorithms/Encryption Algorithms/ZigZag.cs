@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LAB_5___Encryption_Algorithms.Encryption_Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,9 +8,9 @@ namespace LAB_5___Encryption_Algorithms
     public class ZigZag : Interfaces.IEncryptionAlgorithm
     {
         List<List<byte>> Matrix = new List<List<byte>>();
-        public byte[] DecryptData(byte[] content, byte[] key)
+        public byte[] DecryptData(byte[] content, Key key)
         {
-            int lenght = Convert.ToInt32(key[0]);
+            int lenght = key.Levels;
             Matrix = new List<List<byte>>();
             SetMatrix(lenght);
 
@@ -114,9 +115,9 @@ namespace LAB_5___Encryption_Algorithms
         }
 
 
-        public byte[] EncryptData(byte[] content, byte[] key)
+        public byte[] EncryptData(byte[] content, Key key)
         {
-            int lenght = Convert.ToInt32(key[0]);
+            int lenght = key.Levels;
             SetMatrix(lenght);
 
             int pos = 0;
