@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LAB_5___Encryption_Algorithms.Encryption_Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,13 +24,13 @@ namespace LAB_5___Encryption_Algorithms
         List<byte> outEncypred;
         List<byte> outDecrypted;
 
-        public byte[] DecryptData(byte[] content, byte[] key)
+        public byte[] DecryptData(byte[] content, Key key)
         {
             List<byte> auxContent = content.ToList();
             outDecrypted = new List<byte>();
 
-            keyN = key[0]; //filas
-            keyM = key[1]; //columnas
+            keyN = key.Rows; //filas
+            keyM = key.Columns; //columnas
             inicio = 0;
             countContent = 0;
             route = new byte[keyN, keyM];
@@ -50,8 +51,8 @@ namespace LAB_5___Encryption_Algorithms
                 }
                 outFor = 0;
                 inicio = 0;
-                keyN = key[0];
-                keyM = key[1];
+                keyN = key.Rows;
+                keyM = key.Columns;
             }
             return outDecrypted.ToArray();
         }
@@ -104,11 +105,11 @@ namespace LAB_5___Encryption_Algorithms
             }
         }
 
-        public byte[] EncryptData(byte[] content, byte[] key)
+        public byte[] EncryptData(byte[] content, Key key)
         {
                 List<byte> outContent = new List<byte>();
-                keyN = key[0]; //filas
-                keyM = key[1]; //columnas
+                keyN = key.Rows; //filas
+                keyM = key.Columns; //columnas
 
                 inicio = 0;
 
@@ -131,8 +132,8 @@ namespace LAB_5___Encryption_Algorithms
                     }
                     outFor = 0;
                     inicio = 0;
-                    keyN = key[0];
-                    keyM = key[1]; 
+                    keyN = key.Rows;
+                    keyM = key.Columns; 
                     outContent.AddRange(readRoute());
                 }
                 outContent.Insert(0 , dontExist);
