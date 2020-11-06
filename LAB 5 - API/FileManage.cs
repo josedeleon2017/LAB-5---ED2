@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using LAB_5___Encryption_Algorithms;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace LAB_5___API
 {
@@ -55,20 +56,44 @@ namespace LAB_5___API
             switch (algorithm.Trim())
             {
                 case "cesar":
-                    content = new Cesar().EncryptData(buffer, ConvertToByte(key.Word));
-                    extension = ".csr";
-                    break;
+                    if (key.Word == null)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        content = new Cesar().EncryptData(buffer, ConvertToByte(key.Word));
+                        extension = ".csr";
+                        break;
+                    }
                 case "zigzag":
-                    byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
-                    content = new ZigZag().EncryptData(buffer, key_converted);
-                    extension = ".zz";
-                    break;
+                    if (key.Levels < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
+                        content = new ZigZag().EncryptData(buffer, key_converted);
+                        extension = ".zz";
+                        break;
+                    }
                 case "ruta":
-
-                    byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns)};
-                    content = new Route().EncryptData(buffer, keyRoute);
-                    extension = ".rt";
-                    break;
+                    if (key.Rows < 2 && key.Columns < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else if (key.Columns < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
+                        content = new Route().EncryptData(buffer, keyRoute);
+                        extension = ".rt";
+                        break;
+                    }
                 default: throw new Exception();
             }
 
@@ -100,16 +125,41 @@ namespace LAB_5___API
             switch (extension)
             {
                 case "csr":
-                    result = new Cesar().DecryptData(buffer, ConvertToByte(key.Word));
-                    break;
+                    if (key.Word == null)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        result = new Cesar().DecryptData(buffer, ConvertToByte(key.Word));
+                        break;
+                    }
                 case "zz":
-                    byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
-                    result = new ZigZag().DecryptData(buffer, key_converted);
-                    break;
+                    if (key.Levels < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        byte[] key_converted = new byte[] { Convert.ToByte(key.Levels) };
+                        result = new ZigZag().DecryptData(buffer, key_converted);
+                        break;
+                    }
                 case "rt":
-                    byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
-                    result = new Route().DecryptData(buffer, keyRoute);
-                    break;
+                    if (key.Rows < 2 && key.Columns < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else if (key.Columns < 2)
+                    {
+                        throw new Exception();
+                    }
+                    else
+                    {
+                        byte[] keyRoute = new byte[] { Convert.ToByte(key.Rows), Convert.ToByte(key.Columns) };
+                        result = new Route().DecryptData(buffer, keyRoute);
+                        break;
+                    }
                 default: throw new Exception();
             }
 
