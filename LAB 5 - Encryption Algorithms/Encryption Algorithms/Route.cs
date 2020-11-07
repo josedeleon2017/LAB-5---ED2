@@ -23,7 +23,44 @@ namespace LAB_5___Encryption_Algorithms
         private byte[,] route;
         List<byte> outEncypred;
         List<byte> outDecrypted;
+        public byte[] EncryptData(byte[] content, Key key)
+        {
+            List<byte> outContent = new List<byte>();
+            keyN = key.Rows; //filas
+            keyM = key.Columns; //columnas
 
+            inicio = 0;
+
+
+            countContent = 0;
+
+            route = new byte[keyN, keyM];
+            serchDontExist(content);
+            while (countContent < content.Length)
+            {
+                for (int i = 0; outFor < route.Length; i++)
+                {
+                        SetRight(content);
+                    if ((countContent % route.Length) != 0) 
+                        SetDown(content);
+                    if ((countContent % route.Length) != 0) 
+                        SetLeft(content);
+                    if ((countContent % route.Length) != 0)
+                        SetUp(content);
+
+                    inicio++;
+                    keyM--;
+                    keyN--;
+                }
+                outFor = 0;
+                inicio = 0;
+                keyN = key.Rows;
+                keyM = key.Columns;
+                outContent.AddRange(readRoute());
+            }
+            outContent.Insert(0, dontExist);
+            return outContent.ToArray();
+        }
         public byte[] DecryptData(byte[] content, Key key)
         {
             List<byte> auxContent = content.ToList();
@@ -41,10 +78,14 @@ namespace LAB_5___Encryption_Algorithms
                 GetRoute(auxContent);
                 for (int i = 0; outFor < route.Length; i++)
                 {
-                    GetRight(content);
-                    GetDown(content);
-                    GetLeft(content);
-                    GetUp(content);
+                    if (outFor != route.Length)
+                        GetRight(content);
+                    if (outFor != route.Length)
+                        GetDown(content);
+                    if (outFor != route.Length)
+                        GetLeft(content);
+                    if (outFor != route.Length)
+                        GetUp(content);
                     inicio++;
                     keyM--;
                     keyN--;
@@ -53,6 +94,7 @@ namespace LAB_5___Encryption_Algorithms
                 inicio = 0;
                 keyN = key.Rows;
                 keyM = key.Columns;
+                
             }
             return outDecrypted.ToArray();
         }
@@ -63,6 +105,7 @@ namespace LAB_5___Encryption_Algorithms
             {
                 for (int j = 0; j < route.GetLength(1); j++)
                 {
+                    if(countContent < content.Count)
                     route[i, j] = content[countContent];
                     countContent++;
                 }
@@ -73,17 +116,32 @@ namespace LAB_5___Encryption_Algorithms
             for (int i = inicio; i < keyM; i++)
             {
                 if (route[inicio, i] != dontExist)
+                {
                     outDecrypted.Add(route[inicio, i]);
-                outFor++;
+                    outFor++;
+                }
+                else
+                {
+                    outFor = route.Length;
+                    countContent = content.Length;
+                }
             }
         }
         void GetDown(byte[] content)
         {
             for (int i = inicio + 1; i < keyN; i++)
             {
-                if (route[i, keyM - 1] != dontExist) 
+                if (route[i, keyM - 1] != dontExist)
+                { 
                     outDecrypted.Add(route[i, keyM - 1]);
-                outFor++;
+                    outFor++;
+                }
+                else
+                {
+                    outFor = route.Length;
+                    countContent = content.Length;
+                }
+
             }
         }
         void GetLeft(byte[] content)
@@ -91,8 +149,15 @@ namespace LAB_5___Encryption_Algorithms
             for (int i = keyM - 2; i >= inicio; i--)
             {
                 if (route[keyN - 1, i] != dontExist)
+                {
                     outDecrypted.Add(route[keyN - 1, i]);
-                outFor++;
+                    outFor++;
+                }
+                else
+                {
+                    outFor = route.Length;
+                    countContent = content.Length;
+                }
             }
         }
         void GetUp(byte[] content)
@@ -100,45 +165,19 @@ namespace LAB_5___Encryption_Algorithms
             for (int i = keyN - 2; i >= inicio + 1; i--)
             {
                 if (route[i, inicio] != dontExist)
+                {
                     outDecrypted.Add(route[i, inicio]);
-                outFor++;
+                    outFor++;
+                }
+                else
+                {
+                    outFor = route.Length;
+                    countContent = content.Length;
+                }
             }
         }
 
-        public byte[] EncryptData(byte[] content, Key key)
-        {
-                List<byte> outContent = new List<byte>();
-                keyN = key.Rows; //filas
-                keyM = key.Columns; //columnas
-
-                inicio = 0;
-
-
-                countContent = 0;
-
-                route = new byte[keyN, keyM];
-                serchDontExist(content);
-                while (countContent < content.Length)
-                {
-                    for (int i = 0; outFor < route.Length; i++)
-                    {
-                        SetRight(content);
-                        SetDown(content);
-                        SetLeft(content);
-                        SetUp(content);
-                        inicio++;
-                        keyM--;
-                        keyN--;
-                    }
-                    outFor = 0;
-                    inicio = 0;
-                    keyN = key.Rows;
-                    keyM = key.Columns; 
-                    outContent.AddRange(readRoute());
-                }
-                outContent.Insert(0 , dontExist);
-                return outContent.ToArray();
-        }
+        
         public void serchDontExist(byte[] content)
         {
             for (byte i = 1; i <= 255; i++)
@@ -190,7 +229,7 @@ namespace LAB_5___Encryption_Algorithms
                 if (countContent < content.Count())
                     route[i, keyM - 1] = content[countContent];
                 else
-                    route[i, keyM -1] = dontExist;
+                    route[i, keyM - 1] = dontExist;
 
                 countContent++;
                 outFor++;
@@ -221,6 +260,6 @@ namespace LAB_5___Encryption_Algorithms
             }
         }
 
-     
+
     }
 }
