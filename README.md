@@ -35,6 +35,14 @@ Al compilar la clase ***program*** observará el resultado del cifrado y descrif
 ***(ej: api/cipher/zigzag)***
 ***(ej: api/cipher/ruta)***
 
+Para específicar el tipo de llave utilizada, en el form-data se esta haciendo uso de un objeto ***key*** con los siguientes atributos
+- key.word
+- key.levels
+- key.rows
+- key.columns
+
+Dichos atributos son los que deberá ingresar dependiendo del método de cifrado especififcado en el ruta.
+
 El archivo cifrado resultante lo podrá encontrar en la solución del proyecto dentro de la carpeta ***Data/ciphers*** con el nombre del archivo original y con la extension específica del método de cifrado utilizado **.csr .zz .rt**
 
 2. Haga una petición **POST** en ***api/decipher*** agregando en el apartado form-data el **archivo de texto** a descifrar, la llave con la que se ingresa el archivo deberá llamarse **file**, en este mismo apartado tambien deberá agregar un campo de tipo **texto** con el nombre de llave **key** para la llave privada para el cifrado.
